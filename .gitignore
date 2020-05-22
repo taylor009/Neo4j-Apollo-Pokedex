@@ -1,7 +1,9 @@
 .idea
-node_modules
-.env
-
+./api/node_modules
+./api/.env
+api-extractor
+./api-extractor/node_modules
+./api-extractor/.env
 ./client/node_modules
 
 
