@@ -1,0 +1,14 @@
+type Pokemon {
+    _id: ID!
+    name: String
+    url: String,
+    imgUrl: String
+}
+
+type Query {
+    pokemonByName(name: String): [Pokemon]
+    @cypher(
+        statement: "MATCH (p:Pokemon) where p.name CONTAINS $name RETURN p"
+    )
+}
+
