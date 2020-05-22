@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import {Card} from "../card/card.component";
 
 import {CardListContainer} from "./card-list.styles";
 import {gql} from "apollo-boost";
 import {useQuery} from "react-apollo";
-import {SearchBox} from "../search-box/search-box.component";
 
 const GET_POKEMON = gql`
     query getPokemonQuery(
