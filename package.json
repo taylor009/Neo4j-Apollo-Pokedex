@@ -4,13 +4,15 @@
   "main": "server.js",
   "author": "Taylor Gagne",
   "license": "MIT",
+  "engines": {
+    "node": "14.1.0",
+    "npm": "6.14.4"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start-dev": "./node_modules/.bin/nodemon --watch src --ext js,graphql --exec babel-node  server.js",
-    "build": "babel src -d build && shx cp .env build && shx cp src/schema.graphql build",
-    "now-build": "babel src -d build && shx cp .env build && shx cp src/schema.graphql build",
+    "build": "cd client && npm run build",
     "start": "npm run build && node build/index.js",
-    "seedDb": "./node_modules/.bin/babel-node src/seed/seed-db.js"
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
