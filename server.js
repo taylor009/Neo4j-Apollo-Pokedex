@@ -3,6 +3,7 @@ import { ApolloServer } from "apollo-server-express";
 import express from 'express';
 import { v1 as neo4j} from 'neo4j-driver';
 import { makeAugmentedSchema } from "neo4j-graphql-js";
+import path from "path";
 import dotenv from "dotenv";
 
 // set environment variables from ../.env
@@ -52,15 +53,23 @@ const server = new ApolloServer({
 
 // Specify port and path for GraphQL endpoint
 const port = process.env.GRAPHQL_LISTEN_PORT || 4001;
-const path = "/graphql";
+const gqlPath = "/graphql";
+if(process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join(__dirname, 'client/build')));
 
+	app.get('*', (req, res) => {
+		res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+	});
+
+	server.applyMiddleware({app, gqlPath})
+}
 
 /*
  * Optionally, apply Express middleware for authentication, etc
  * This also also allows us to specify a path for the GraphQL endpoint
  */
 
-server.applyMiddleware({app, path});
-app.listen({port, path}, () => {
-	console.log(`GraphQL server ready at http://localhost:${port}${path}`);
+server.applyMiddleware({app, gqlPath});
+app.listen({port, gqlPath}, () => {
+	console.log(`GraphQL server ready at http://localhost:${port}${gqlPath}`);
 });
